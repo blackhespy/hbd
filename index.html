@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#FFC530">
+<title>Selamat ulang tahun, Novelyne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caprasimo&family=Figtree:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sun:#FFC530;      /* kelopak bunga matahari */
+    --petal:#FFE58A;    /* kuning muda */
+    --paper:#FFFBEE;    /* kertas */
+    --seed:#3A2012;     /* biji / teks utama */
+    --husk:#7A4A22;     /* cokelat kedua */
+    --leaf:#4F7A34;     /* batang & daun */
+    --stamp:#FF7A1A;    /* cap tanggal kamera */
+    --display:"Caprasimo", Georgia, serif;
+    --body:"Figtree", system-ui, -apple-system, "Segoe UI", "PingFang SC", "Noto Sans SC", sans-serif;
+    --ease-pop:cubic-bezier(.34,1.56,.64,1);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--seed);font:400 1.0625rem/1.6 var(--body);overflow-x:hidden}
+  body.locked{overflow:hidden}
+  img{display:block;max-width:100%}
+  button{font:inherit;color:inherit;cursor:pointer}
+  :focus-visible{outline:3px solid var(--seed);outline-offset:3px;border-radius:6px}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+  /* ---------- Bunga matahari (SVG) ---------- */
+  .flower .petal{transform:rotate(var(--a)) scale(var(--s,1));transform-origin:0 0;transition:transform 1s var(--ease-pop),opacity .5s ease;transition-delay:var(--d,0s)}
+  .flower .back{fill:#F2A81D}
+  .flower .front{fill:var(--sun)}
+  .flower .disc{transform-origin:0 0;transition:transform .8s var(--ease-pop)}
+  .bud .petal{--s:.34}
+  .bud .disc{transform:scale(.62)}
+  .spin{animation:spin 60s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ---------- Gerbang pembuka ---------- */
+  .gate{position:fixed;inset:0;z-index:50;background:var(--sun);display:grid;place-items:center;text-align:center;padding:24px;transition:opacity .7s ease, visibility .7s}
+  .gate.gone{opacity:0;visibility:hidden}
+  .gate-btn{background:none;border:0;padding:0;display:grid;justify-items:center;gap:18px}
+  .gate-btn svg{width:min(72vw,340px);height:auto;filter:drop-shadow(0 10px 0 rgba(122,74,34,.18))}
+  .gate-btn:not(.opened) svg{animation:nudge 2.4s ease-in-out infinite}
+  @keyframes nudge{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+  .gate h1{font:400 clamp(1.9rem,7vw,2.8rem)/1.1 var(--display);margin:0}
+  .gate p{margin:0;font-weight:500;color:var(--husk);transition:opacity .3s}
+  .gate-btn.opened p{opacity:0}
+
+  /* ---------- Pop-up slide ---------- */
+  .modal{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:20px;background:rgba(58,32,18,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:opacity .35s, visibility .35s}
+  .modal.show{opacity:1;visibility:visible}
+  .card{position:relative;width:min(100%,420px);min-height:min(78vh,560px);background:var(--paper);border-radius:28px;padding:28px 24px 22px;display:flex;flex-direction:column;box-shadow:0 18px 0 -6px var(--sun),0 30px 60px rgba(58,32,18,.35);transform:scale(.7) rotate(-3deg);transition:transform .6s var(--ease-pop)}
+  .modal.show .card{transform:none}
+  .close{position:absolute;z-index:3;top:12px;right:12px;width:40px;height:40px;border-radius:50%;border:0;background:transparent;font-size:1.5rem;line-height:1;color:var(--husk)}
+  .close:hover{background:var(--petal)}
+  .slides{position:relative;flex:1;display:grid}
+  .slide{grid-area:1/1;display:flex;flex-direction:column;justify-content:center;text-align:center;gap:14px;opacity:0;visibility:hidden;pointer-events:none}
+  .slide.on{opacity:1;visibility:visible;pointer-events:auto}
+  .slide.on > *{animation:pop .7s var(--ease-pop) both}
+  .slide.on > *:nth-child(2){animation-delay:.12s}
+  .slide.on > *:nth-child(3){animation-delay:.24s}
+  .slide.on > *:nth-child(4){animation-delay:.36s}
+  @keyframes pop{from{opacity:0;transform:translateY(18px) scale(.85) rotate(-2deg)}to{opacity:1;transform:none}}
+  .slide h2{font:400 clamp(1.75rem,7.5vw,2.3rem)/1.12 var(--display);margin:0;text-wrap:balance}
+  .slide p{margin:0 auto;max-width:30ch;color:var(--husk);text-wrap:pretty}
+  .big-date{font:400 clamp(4.5rem,24vw,7rem)/.9 var(--display);color:var(--sun);-webkit-text-stroke:3px var(--seed);paint-order:stroke fill;letter-spacing:-.02em}
+  .hanzi{font:700 clamp(3rem,15vw,4.2rem)/1.1 var(--body);margin:0}
+  .pinyin{font-style:italic;color:var(--husk);font-size:1.15rem}
+  .mini-flower{width:120px;margin:0 auto}
+  .fan{position:relative;height:170px;margin:4px auto 0;width:220px}
+  .fan img{position:absolute;left:50%;top:6px;width:104px;height:136px;object-fit:cover;border:6px solid #fff;border-bottom-width:18px;border-radius:4px;box-shadow:0 6px 14px rgba(58,32,18,.25);transform:translateX(-50%)}
+  .slide.on .fan img{animation:fan .9s var(--ease-pop) both;animation-delay:.3s}
+  .slide.on .fan img:nth-child(1){--r:-16deg;--x:-95%}
+  .slide.on .fan img:nth-child(2){--r:2deg;--x:-50%;animation-delay:.42s}
+  .slide.on .fan img:nth-child(3){--r:15deg;--x:-5%;animation-delay:.54s}
+  @keyframes fan{from{transform:translateX(-50%) rotate(0) scale(.6);opacity:0}to{transform:translateX(var(--x)) rotate(var(--r));opacity:1}}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:18px}
+  .dots{display:flex;gap:7px}
+  .dots span{width:8px;height:8px;border-radius:99px;background:var(--petal);transition:width .35s var(--ease-pop),background .3s}
+  .dots span.on{width:24px;background:var(--seed)}
+  .btn{border:0;border-radius:999px;padding:12px 22px;font-weight:700;background:var(--seed);color:var(--paper);transition:transform .2s var(--ease-pop)}
+  .btn:active{transform:scale(.94)}
+  .btn.ghost{background:transparent;color:var(--husk);padding-inline:10px}
+  .btn.ghost[disabled]{visibility:hidden}
+  .btn.sun{background:var(--sun);color:var(--seed);box-shadow:0 5px 0 var(--husk)}
+  .btn.sun:active{box-shadow:0 1px 0 var(--husk);transform:translateY(4px)}
+
+  /* ---------- Halaman utama ---------- */
+  .hero{min-height:100svh;background:var(--sun);display:grid;align-content:start;justify-items:center;text-align:center;padding:16svh 22px 96px;position:relative;overflow:hidden}
+  .hero .flower{position:absolute;width:min(135vw,760px);left:50%;bottom:0;translate:-50% 52%;pointer-events:none}
+  .hero .flower .front{fill:var(--petal)}
+  .hero .flower .back{fill:#F2A81D}
+  .hero > *:not(.flower){position:relative}
+  .hero h1{font:400 clamp(2.7rem,12vw,5.6rem)/.98 var(--display);margin:0 0 18px;max-width:11ch;text-wrap:balance}
+  .hero p{margin:0 0 30px;font-weight:500;max-width:32ch}
+  .scroll-hint{margin-top:30px;color:var(--husk);font-size:.95rem;text-decoration:none;font-weight:700}
+  .scroll-hint::after{content:"";display:block;width:2px;height:28px;margin:8px auto 0;background:var(--husk);border-radius:2px;animation:drip 1.8s ease-in-out infinite;transform-origin:top}
+  @keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+  section{padding:80px 20px}
+  .wrap{max-width:680px;margin:0 auto}
+  .sec-title{font:400 clamp(2rem,8vw,3rem)/1.05 var(--display);margin:0 0 10px}
+  .sec-lead{margin:0 0 40px;color:var(--husk);max-width:46ch}
+
+  /* Timeline: batang bunga matahari */
+  .timeline{position:relative;list-style:none;margin:0;padding:0 0 0 34px}
+  .timeline::before{content:"";position:absolute;left:11px;top:14px;bottom:14px;width:4px;border-radius:4px;background:var(--leaf)}
+  .month{position:relative;margin-bottom:18px}
+  .month::before{content:"";position:absolute;left:-30px;top:22px;width:20px;height:12px;background:var(--leaf);border-radius:0 100% 0 100%;transform:rotate(-20deg)}
+  .month-head{width:100%;display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px;text-align:left;background:#fff;border:2px solid var(--seed);border-radius:20px;padding:14px 16px;box-shadow:0 5px 0 var(--seed);transition:transform .2s var(--ease-pop),box-shadow .2s, background .3s}
+  .month-head:active{transform:translateY(4px);box-shadow:0 1px 0 var(--seed)}
+  .month-head[aria-expanded="true"]{background:var(--petal)}
+  .m-name{font:400 1.6rem/1.1 var(--display);display:block}
+  .m-sub{display:block;color:var(--husk);font-weight:500;font-size:.98rem}
+  .peek{display:flex;align-items:center}
+  .peek img{width:42px;height:42px;object-fit:cover;border-radius:50%;border:2px solid #fff;margin-left:-14px;box-shadow:0 2px 6px rgba(58,32,18,.25);transition:transform .4s var(--ease-pop)}
+  .peek img:first-child{margin-left:0}
+  .month-head[aria-expanded="true"] .peek img{transform:scale(0);}
+  .chev{width:30px;height:30px;border-radius:50%;background:var(--sun);display:grid;place-items:center;margin-left:8px;transition:transform .45s var(--ease-pop);flex:none}
+  .month-head[aria-expanded="true"] .chev{transform:rotate(180deg)}
+  .head-right{display:flex;align-items:center}
+  .panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s cubic-bezier(.2,.8,.2,1)}
+  .panel.open{grid-template-rows:1fr}
+  .panel > div{overflow:hidden}
+  .panel-inner{padding:20px 14px 28px 4px}
+  .panel-inner p{margin:0 0 20px;max-width:52ch}
+  .photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px}
+  .polaroid{display:block;width:100%;background:#fff;border:0;padding:8px 8px 12px;border-radius:6px;box-shadow:0 8px 20px rgba(58,32,18,.18);text-align:left;transform:rotate(var(--tilt,0deg)) translateY(30px) scale(.9);opacity:0;transition:transform .7s var(--ease-pop),opacity .4s}
+  .panel.open .polaroid{transform:rotate(var(--tilt,0deg));opacity:1}
+  .panel.open .polaroid:nth-child(2){transition-delay:.1s}
+  .panel.open .polaroid:nth-child(3){transition-delay:.2s}
+  .polaroid:hover{transform:rotate(0) scale(1.03)}
+  .ph{display:block;position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:2px;background:var(--petal)}
+  .ph.wide{aspect-ratio:4/3}
+  .ph img{width:100%;height:100%;object-fit:cover}
+  .stamp{position:absolute;right:8px;bottom:6px;font:700 .95rem/1 var(--body);letter-spacing:.06em;color:var(--stamp);text-shadow:0 0 6px rgba(255,122,26,.75),0 0 1px #000;font-variant-numeric:tabular-nums}
+  .cap{display:block;margin-top:9px;font-size:.92rem;font-weight:500;line-height:1.35}
+  .expand-all{margin:6px 0 0 34px;background:none;border:0;color:var(--husk);font-weight:700;text-decoration:underline;text-underline-offset:4px;padding:6px 0}
+
+  /* Kue & lilin */
+  .wish{background:var(--seed);color:var(--paper);text-align:center;position:relative;overflow:hidden}
+  .wish .sec-title{color:var(--sun)}
+  .wish .sec-lead{color:var(--petal);margin-inline:auto}
+  .cake{width:min(78vw,300px);margin:10px auto 30px;display:block}
+  .flame{transform-box:fill-box;transform-origin:50% 100%;animation:flicker .9s ease-in-out infinite alternate}
+  .flame:nth-of-type(2){animation-delay:.3s}
+  @keyframes flicker{from{transform:scale(1,1) rotate(-3deg)}to{transform:scale(.88,1.12) rotate(3deg)}}
+  .blown .flame{animation:out .5s ease forwards}
+  @keyframes out{to{transform:scale(0,.2);opacity:0}}
+  .smoke{opacity:0}
+  .blown .smoke{animation:smoke 1.6s ease-out forwards}
+  @keyframes smoke{0%{opacity:.7;transform:translateY(0)}100%{opacity:0;transform:translateY(-40px)}}
+  .after{max-width:34ch;margin:0 auto;display:none}
+  .after.show{display:block;animation:pop .8s var(--ease-pop) both}
+  .after h3{font:400 clamp(1.8rem,7vw,2.5rem)/1.1 var(--display);color:var(--sun);margin:0 0 12px}
+  .after p{margin:0 0 10px;color:var(--petal)}
+
+  footer{padding:46px 20px 60px;text-align:center;background:var(--seed);color:var(--petal);border-top:2px dashed rgba(255,229,138,.25)}
+  footer .sig{font:400 1.7rem/1.2 var(--display);color:var(--sun);display:block;margin-top:4px}
+  footer small{display:block;margin-top:14px;opacity:.7;font-variant-numeric:tabular-nums}
+
+  /* Lightbox */
+  .lb{position:fixed;inset:0;z-index:70;background:rgba(30,16,8,.97);display:grid;grid-template-rows:1fr auto;place-items:center;padding:56px 14px 22px;opacity:0;visibility:hidden;transition:opacity .3s, visibility .3s}
+  .lb.show{opacity:1;visibility:visible}
+  .lb figure{margin:0;display:grid;place-items:center;max-height:100%;width:100%;height:100%}
+  .lb img{max-width:100%;max-height:calc(100svh - 170px);object-fit:contain;border-radius:8px;transform:scale(.92);transition:transform .45s var(--ease-pop)}
+  .lb.show img{transform:none}
+  .lb figcaption{color:var(--petal);text-align:center;margin-top:12px;font-weight:500}
+  .lb-bar{display:flex;gap:14px;align-items:center}
+  .lb .circ{width:48px;height:48px;border-radius:50%;border:0;background:var(--sun);color:var(--seed);font-size:1.3rem;font-weight:700}
+  .lb .x{position:absolute;top:12px;right:12px;background:transparent;color:var(--petal);border:0;font-size:2rem;width:44px;height:44px}
+  .lb-count{color:var(--petal);min-width:56px;text-align:center;font-variant-numeric:tabular-nums}
+
+  /* Hujan kelopak */
+  .rain{position:fixed;inset:0;pointer-events:none;z-index:80;overflow:hidden}
+  .fall{position:absolute;top:-30px;width:14px;height:22px;border-radius:50% 50% 50% 50%/70% 70% 30% 30%;background:var(--c);animation:fall var(--t) linear forwards;animation-delay:var(--dl)}
+  @keyframes fall{0%{transform:translate(0,0) rotate(0)}100%{transform:translate(var(--sx),110vh) rotate(var(--rot))}}
+
+  @media (min-width:720px){
+    section{padding:110px 32px}
+    .timeline{padding-left:48px}
+    .timeline::before{left:16px}
+    .month::before{left:-40px}
+    .expand-all{margin-left:48px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body class="locked">
+
+<!-- 1. Gerbang: bunga matahari kuncup -->
+<div class="gate" id="gate">
+  <button class="gate-btn" id="gateBtn" aria-label="Buka kejutan ulang tahun">
+    <svg class="flower bud" id="gateFlower" viewBox="-100 -100 200 200" aria-hidden="true"></svg>
+    <h1>Untuk Novelyne</h1>
+    <p>Ketuk bunganya</p>
+  </button>
+</div>
+
+<!-- 2. Pop-up ucapan -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Ucapan ulang tahun">
+  <div class="card">
+    <button class="close" id="closeModal" aria-label="Tutup ucapan">×</button>
+    <div class="slides" id="slides">
+      <div class="slide">
+        <div class="big-date">19.11</div>
+        <h2>Selamat ulang tahun, Novelyne!</h2>
+        <p>Hari ini tanggal paling kuning di kalender aku.</p>
+      </div>
+      <div class="slide">
+        <svg class="flower mini-flower spin" data-flower viewBox="-100 -100 200 200" aria-hidden="true"></svg>
+        <h2>Makasih sudah jadi kamu</h2>
+        <p>Yang sabar, yang ketawanya paling kencang tiap buka pack, dan yang selalu bikin hari biasa jadi seru.</p>
+      </div>
+      <div class="slide">
+        <p class="hanzi" lang="zh-Hans">生日快乐，美玲</p>
+        <p class="pinyin" lang="zh-Latn-pinyin">Shēngrì kuàilè, Měilíng</p>
+        <p>Aku tulis pakai Hanzi biar kamu bangga. Kalau nadanya ada yang salah, koreksi ya, Lǎoshī.</p>
+      </div>
+      <div class="slide">
+        <div class="fan" aria-hidden="true">
+          <img src="photos/maret-niubao.jpg" alt="">
+          <img src="photos/september-anniv-2.jpg" alt="">
+          <img src="photos/november-bogor-2.jpg" alt="">
+        </div>
+        <h2>Tahun ini banyak banget ceritanya</h2>
+        <p>Dari valentine yang telat sampai jalan-jalan ke Bogor. Yuk, lihat lagi satu per satu.</p>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn ghost" id="prev">Kembali</button>
+      <div class="dots" id="dots" aria-hidden="true"></div>
+      <button class="btn" id="next">Lanjut</button>
+    </div>
+  </div>
+</div>
+
+<main id="main" aria-hidden="true">
+  <header class="hero">
+    <svg class="flower spin" data-flower viewBox="-100 -100 200 200" aria-hidden="true"></svg>
+    <h1>Selamat ulang tahun, Novelyne</h1>
+    <p>19 November 2026. Satu tahun lagi bareng kamu, dan aku masih senang tiap harinya.</p>
+    <button class="btn sun" id="replay">Buka ucapan lagi</button>
+    <a class="scroll-hint" href="#kenangan">Kenangan kita</a>
+  </header>
+
+  <section id="kenangan">
+    <div class="wrap">
+      <h2 class="sec-title">Kenangan kita tahun ini</h2>
+      <p class="sec-lead">Ketuk tiap bulan untuk membuka fotonya. Ketuk foto untuk melihat lebih besar.</p>
+      <ol class="timeline" id="timeline"></ol>
+      <button class="expand-all" id="expandAll">Buka semua bulan</button>
+    </div>
+  </section>
+
+  <section class="wish" id="lilin">
+    <div class="wrap">
+      <h2 class="sec-title">Sekarang giliran kamu</h2>
+      <p class="sec-lead">Pejamkan mata, bikin permintaan, lalu tiup lilinnya.</p>
+      <svg class="cake" id="cake" viewBox="0 0 300 260" role="img" aria-label="Kue ulang tahun dengan tiga lilin">
+        <ellipse cx="150" cy="238" rx="128" ry="14" fill="#000" opacity=".25"/>
+        <rect x="40" y="150" width="220" height="86" rx="16" fill="#FFE58A"/>
+        <path d="M40 170 q18 22 36 0 t36 0 t36 0 t36 0 t36 0 t36 0 V160 a16 16 0 0 0-16-10 H56 a16 16 0 0 0-16 10z" fill="#FFFBEE"/>
+        <rect x="40" y="206" width="220" height="10" fill="#FFC530"/>
+        <g fill="#FFC530">
+          <circle cx="80" cy="188" r="5"/><circle cx="130" cy="192" r="5"/><circle cx="175" cy="186" r="5"/><circle cx="222" cy="191" r="5"/>
+        </g>
+        <g id="candles">
+          <rect x="94" y="96" width="12" height="56" rx="4" fill="#FFFBEE"/><rect x="94" y="108" width="12" height="7" fill="#FF7A1A"/><rect x="94" y="126" width="12" height="7" fill="#FF7A1A"/>
+          <rect x="144" y="84" width="12" height="68" rx="4" fill="#FFFBEE"/><rect x="144" y="98" width="12" height="7" fill="#FF7A1A"/><rect x="144" y="118" width="12" height="7" fill="#FF7A1A"/>
+          <rect x="194" y="96" width="12" height="56" rx="4" fill="#FFFBEE"/><rect x="194" y="108" width="12" height="7" fill="#FF7A1A"/><rect x="194" y="126" width="12" height="7" fill="#FF7A1A"/>
+          <path class="flame" d="M100 94 c-9-10-4-20 0-30 c4 10 9 20 0 30z" fill="#FFC530"/>
+          <path class="flame" d="M150 82 c-9-10-4-20 0-30 c4 10 9 20 0 30z" fill="#FFC530"/>
+          <path class="flame" d="M200 94 c-9-10-4-20 0-30 c4 10 9 20 0 30z" fill="#FFC530"/>
+          <g class="smoke" fill="#FFFBEE"><circle cx="100" cy="80" r="5"/><circle cx="150" cy="68" r="5"/><circle cx="200" cy="80" r="5"/></g>
+        </g>
+      </svg>
+      <button class="btn sun" id="blow">Tiup lilinnya</button>
+      <div class="after" id="after" aria-live="polite">
+        <h3>Yeay, selamat ulang tahun, sayang!</h3>
+        <p>Semoga semua permintaanmu terkabul. Aku mau ada di sebelah kamu waktu satu per satu jadi nyata.</p>
+        <p>Sampai ketemu di kenangan-kenangan berikutnya.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Dengan sayang,
+    <span class="sig">CJ</span>
+    <small>Untuk Novelyne Liem, 19.11.2026</small>
+  </footer>
+</main>
+
+<!-- Lightbox -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Foto kenangan">
+  <button class="x" id="lbClose" aria-label="Tutup foto">×</button>
+  <figure><img id="lbImg" alt=""><figcaption id="lbCap"></figcaption></figure>
+  <div class="lb-bar">
+    <button class="circ" id="lbPrev" aria-label="Foto sebelumnya">‹</button>
+    <span class="lb-count" id="lbCount"></span>
+    <button class="circ" id="lbNext" aria-label="Foto berikutnya">›</button>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DATA KENANGAN — edit di sini saja.
+   date: "YYYY-MM-DD" (tampil lengkap) atau "YYYY-MM" (bulan saja)
+   wide: true untuk foto landscape
+   ============================================================ */
+const MEMORIES = [
+  {
+    month: "Maret",
+    title: "Valentine yang telat",
+    text: "Valentine kita mundur ke bulan Maret, jadi sekalian dirayain telat. Ternyata telat pun tetap manis, apalagi ditutup makan Niu Bao bareng.",
+    photos: [
+      { src: "photos/maret-valentine.jpg", date: "2026-03-19", cap: "Buka kado valentine (telat)", wide: true },
+      { src: "photos/maret-niubao.jpg", date: "2026-03", cap: "Niu Bao, sate sapi favorit" }
+    ]
+  },
+  {
+    month: "April",
+    title: "Pack pertama kita",
+    text: "Bulan kita mulai terjun ke dunia TCG. Buka pack One Piece bareng di HICE, lalu lanjut ke pameran TCG di Puri. Deg-degan tiap sobek pack, padahal yang paling beruntung tetap aku.",
+    photos: [
+      { src: "photos/april-tcg.jpg", date: "2026-04", cap: "Satu kipas penuh pack One Piece", wide: true }
+    ]
+  },
+  {
+    month: "September",
+    title: "Tiga tahun kita",
+    text: "Anniversary ketiga, dirayain dengan sebuket bunga matahari. Kuning, cerah, dan bikin senyum. Persis kamu.",
+    photos: [
+      { src: "photos/september-anniv-1.jpg", date: "2026-09", cap: "Tiga tahun, masih senyum selebar ini" },
+      { src: "photos/september-anniv-2.jpg", date: "2026-09", cap: "Bunga matahari untuk mataharinya aku" }
+    ]
+  },
+  {
+    month: "November",
+    title: "Liburan ke Bogor",
+    text: "Jalan-jalan ke Bogor, di antara kolam teratai dan taman bunga. Langitnya mendung, tapi kamu tetap yang paling cerah.",
+    photos: [
+      { src: "photos/november-bogor-1.jpg", date: "2026-11", cap: "Selfie di pinggir kolam teratai" },
+      { src: "photos/november-bogor-2.jpg", date: "2026-11", cap: "Pose cemberut andalan" }
+    ]
+  }
+];
+
+/* ---------- Bunga matahari ---------- */
+const NS = "http://www.w3.org/2000/svg";
+const PETAL = "M0,-16 C15,-32 15,-64 0,-86 C-15,-64 -15,-32 0,-16Z";
+function drawFlower(svg){
+  const layer = (n, cls, off, r0) => {
+    for(let i=0;i<n;i++){
+      const p = document.createElementNS(NS,"path");
+      p.setAttribute("d",PETAL); p.setAttribute("class","petal "+cls);
+      p.style.setProperty("--a",(i*360/n+off)+"deg");
+      p.style.setProperty("--d",(r0 + i*0.035)+"s");
+      svg.appendChild(p);
+    }
+  };
+  layer(20,"back",9,0);
+  layer(20,"front",0,.15);
+  const disc = document.createElementNS(NS,"g"); disc.setAttribute("class","disc");
+  const c = document.createElementNS(NS,"circle"); c.setAttribute("r","30"); c.setAttribute("fill","#3A2012"); disc.appendChild(c);
+  // Biji tersusun phyllotaxis (sudut emas), seperti bunga matahari asli
+  const golden = Math.PI*(3-Math.sqrt(5));
+  for(let i=1;i<170;i++){
+    const r = 2.15*Math.sqrt(i), t = i*golden;
+    const d = document.createElementNS(NS,"circle");
+    d.setAttribute("cx",(r*Math.cos(t)).toFixed(2)); d.setAttribute("cy",(r*Math.sin(t)).toFixed(2));
+    d.setAttribute("r", (0.8 + i/170).toFixed(2));
+    d.setAttribute("fill", i%3 ? "#7A4A22" : "#B07A2E");
+    disc.appendChild(d);
+  }
+  svg.appendChild(disc);
+}
+document.querySelectorAll("[data-flower], #gateFlower").forEach(drawFlower);
+
+/* ---------- Gerbang ---------- */
+const gate = document.getElementById("gate"), gateBtn = document.getElementById("gateBtn");
+const main = document.getElementById("main");
+gateBtn.addEventListener("click", () => {
+  if(gateBtn.classList.contains("opened")) return;
+  gateBtn.classList.add("opened");
+  document.getElementById("gateFlower").classList.remove("bud");
+  petalRain(36);
+  setTimeout(() => { gate.classList.add("gone"); openModal(); }, 1700);
+}, {once:false});
+
+/* ---------- Pop-up slide ---------- */
+const modal = document.getElementById("modal");
+const slides = [...document.querySelectorAll(".slide")];
+const dots = document.getElementById("dots");
+const prevBtn = document.getElementById("prev"), nextBtn = document.getElementById("next");
+slides.forEach(() => dots.appendChild(document.createElement("span")));
+let cur = 0;
+function show(i){
+  cur = Math.max(0, Math.min(slides.length-1, i));
+  slides.forEach((s,k) => { s.classList.toggle("on", k===cur); s.setAttribute("aria-hidden", k!==cur); });
+  [...dots.children].forEach((d,k) => d.classList.toggle("on", k===cur));
+  prevBtn.disabled = cur===0;
+  nextBtn.textContent = cur===slides.length-1 ? "Lihat kenangan kita" : "Lanjut";
+}
+function openModal(){ show(0); modal.classList.add("show"); document.body.classList.add("locked"); main.setAttribute("aria-hidden","true"); setTimeout(()=>nextBtn.focus(),400); }
+function closeModal(scrollTo){
+  modal.classList.remove("show"); document.body.classList.remove("locked"); main.removeAttribute("aria-hidden");
+  if(scrollTo) setTimeout(() => document.getElementById("kenangan").scrollIntoView({behavior:"smooth"}), 350);
+}
+nextBtn.addEventListener("click", () => cur===slides.length-1 ? closeModal(true) : show(cur+1));
+prevBtn.addEventListener("click", () => show(cur-1));
+document.getElementById("closeModal").addEventListener("click", () => closeModal(false));
+document.getElementById("replay").addEventListener("click", openModal);
+// geser untuk ganti slide
+let sx = null;
+modal.addEventListener("touchstart", e => sx = e.touches[0].clientX, {passive:true});
+modal.addEventListener("touchend", e => {
+  if(sx===null) return; const dx = e.changedTouches[0].clientX - sx; sx = null;
+  if(Math.abs(dx) > 50) dx < 0 ? (cur<slides.length-1 && show(cur+1)) : show(cur-1);
+});
+
+/* ---------- Timeline kenangan ---------- */
+const MONTHS = ["Jan","Feb","Mar","Apr","Mei","Jun","Jul","Agu","Sep","Okt","Nov","Des"];
+function stamp(date){
+  const [y,m,d] = date.split("-");
+  return d ? `'${y.slice(2)} ${+m} ${+d}` : `${MONTHS[+m-1]} '${y.slice(2)}`;
+}
+const allPhotos = [];
+const tl = document.getElementById("timeline");
+MEMORIES.forEach((mem, mi) => {
+  const li = document.createElement("li"); li.className = "month";
+  const pid = "panel-"+mi;
+  const peek = mem.photos.map(p => `<img src="${p.src}" alt="" loading="lazy">`).join("");
+  const tilts = [-2.5, 2, -1.2];
+  const cards = mem.photos.map((p, pi) => {
+    const idx = allPhotos.push({...p, month: mem.month}) - 1;
+    return `<button class="polaroid" style="--tilt:${tilts[pi%3]}deg" data-idx="${idx}" aria-label="Perbesar foto: ${p.cap}">
+      <span class="ph${p.wide ? " wide" : ""}"><img src="${p.src}" alt="${p.cap}" loading="lazy"><span class="stamp">${stamp(p.date)}</span></span>
+      <span class="cap">${p.cap}</span></button>`;
+  }).join("");
+  li.innerHTML = `
+    <button class="month-head" aria-expanded="false" aria-controls="${pid}">
+      <span><span class="m-name">${mem.month}</span><span class="m-sub">${mem.title}</span></span>
+      <span class="head-right"><span class="peek" aria-hidden="true">${peek}</span>
+      <span class="chev" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 5l5 5 5-5" fill="none" stroke="#3A2012" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+    </button>
+    <div class="panel" id="${pid}"><div><div class="panel-inner"><p>${mem.text}</p><div class="photos">${cards}</div></div></div></div>`;
+  tl.appendChild(li);
+});
+function setOpen(head, open){
+  head.setAttribute("aria-expanded", open);
+  document.getElementById(head.getAttribute("aria-controls")).classList.toggle("open", open);
+}
+tl.addEventListener("click", e => {
+  const head = e.target.closest(".month-head");
+  if(head){ setOpen(head, head.getAttribute("aria-expanded")!=="true"); syncAll(); return; }
+  const pol = e.target.closest(".polaroid");
+  if(pol) openLb(+pol.dataset.idx);
+});
+const expandAll = document.getElementById("expandAll");
+function syncAll(){
+  const heads = [...tl.querySelectorAll(".month-head")];
+  expandAll.textContent = heads.every(h => h.getAttribute("aria-expanded")==="true") ? "Tutup semua bulan" : "Buka semua bulan";
+}
+expandAll.addEventListener("click", () => {
+  const heads = [...tl.querySelectorAll(".month-head")];
+  const openAll = !heads.every(h => h.getAttribute("aria-expanded")==="true");
+  heads.forEach((h,i) => setTimeout(() => setOpen(h, openAll), i*120));
+  setTimeout(syncAll, heads.length*120);
+});
+
+/* ---------- Lightbox ---------- */
+const lb = document.getElementById("lb"), lbImg = document.getElementById("lbImg");
+let lbIndex = 0, lastFocus = null;
+function renderLb(){
+  const p = allPhotos[lbIndex];
+  lbImg.src = p.src; lbImg.alt = p.cap;
+  document.getElementById("lbCap").textContent = `${p.month}: ${p.cap}`;
+  document.getElementById("lbCount").textContent = `${lbIndex+1} / ${allPhotos.length}`;
+}
+function openLb(i){ lastFocus = document.activeElement; lbIndex = i; renderLb(); lb.classList.add("show"); document.body.classList.add("locked"); document.getElementById("lbClose").focus(); }
+function closeLb(){ lb.classList.remove("show"); document.body.classList.remove("locked"); lastFocus && lastFocus.focus(); }
+const step = d => { lbIndex = (lbIndex + d + allPhotos.length) % allPhotos.length; renderLb(); };
+document.getElementById("lbClose").addEventListener("click", closeLb);
+document.getElementById("lbPrev").addEventListener("click", () => step(-1));
+document.getElementById("lbNext").addEventListener("click", () => step(1));
+lb.addEventListener("click", e => { if(e.target === lb || e.target.tagName === "FIGURE") closeLb(); });
+let lx = null;
+lb.addEventListener("touchstart", e => lx = e.touches[0].clientX, {passive:true});
+lb.addEventListener("touchend", e => { if(lx===null) return; const dx = e.changedTouches[0].clientX - lx; lx = null; if(Math.abs(dx)>50) step(dx<0?1:-1); });
+
+document.addEventListener("keydown", e => {
+  if(lb.classList.contains("show")){
+    if(e.key==="Escape") closeLb(); if(e.key==="ArrowRight") step(1); if(e.key==="ArrowLeft") step(-1);
+  } else if(modal.classList.contains("show")){
+    if(e.key==="Escape") closeModal(false); if(e.key==="ArrowRight" && cur<slides.length-1) show(cur+1); if(e.key==="ArrowLeft") show(cur-1);
+  }
+});
+
+/* ---------- Tiup lilin ---------- */
+const cake = document.getElementById("cake"), blow = document.getElementById("blow");
+function blowOut(){
+  if(cake.classList.contains("blown")) return;
+  cake.classList.add("blown"); blow.hidden = true;
+  document.getElementById("after").classList.add("show");
+  petalRain(90);
+}
+blow.addEventListener("click", blowOut);
+document.getElementById("candles").addEventListener("click", blowOut);
+
+/* ---------- Hujan kelopak ---------- */
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+function petalRain(n){
+  if(reduce) return;
+  const box = document.createElement("div"); box.className = "rain"; box.setAttribute("aria-hidden","true");
+  const colors = ["#FFC530","#FFE58A","#F2A81D","#FFD95E"];
+  for(let i=0;i<n;i++){
+    const s = document.createElement("span"); s.className = "fall";
+    s.style.left = Math.random()*100 + "vw";
+    s.style.setProperty("--c", colors[i%colors.length]);
+    s.style.setProperty("--t", (3 + Math.random()*3) + "s");
+    s.style.setProperty("--dl", (Math.random()*1.4) + "s");
+    s.style.setProperty("--sx", (Math.random()*160-80) + "px");
+    s.style.setProperty("--rot", (Math.random()*720-360) + "deg");
+    s.style.scale = (0.6 + Math.random()*0.8).toFixed(2);
+    box.appendChild(s);
+  }
+  document.body.appendChild(box);
+  setTimeout(() => box.remove(), 7000);
+}
+</script>
+</body>
+</html>
